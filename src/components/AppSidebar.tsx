@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
+import { useSidebarState } from "@/hooks/use-sidebar-state";
 import { useState } from "react";
 import {
   MessageSquare,
