@@ -128,7 +128,6 @@ export function AppSidebar() {
             <PanelLeft className="h-4 w-4" />
           </button>
         </div>
-        </div>
 
         {/* Top nav */}
         <nav className="flex flex-col gap-0.5 pt-2 px-2 flex-1">
