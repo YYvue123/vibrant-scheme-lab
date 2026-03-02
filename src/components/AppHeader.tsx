@@ -1,7 +1,14 @@
-export function AppHeader() {
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileSidebarTrigger } from "@/components/MobileSidebar";
+
+export function AppHeader({ onMobileMenuOpen }: { onMobileMenuOpen?: () => void }) {
+  const isMobile = useIsMobile();
+
   return (
     <header className="h-12 flex items-center border-b border-border bg-background shrink-0 px-4">
-      {/* Header area reserved for future features */}
+      {isMobile && onMobileMenuOpen && (
+        <MobileSidebarTrigger onClick={onMobileMenuOpen} />
+      )}
     </header>
   );
 }

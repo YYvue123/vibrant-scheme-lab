@@ -7,6 +7,9 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import { SidebarProvider } from "@/hooks/use-sidebar-state";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppHeader } from "@/components/AppHeader";
+import { MobileSidebar } from "@/components/MobileSidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useState } from "react";
 import AiChat from "./pages/AiChat";
 import AiImage from "./pages/AiImage";
 import AiVideo from "./pages/AiVideo";
@@ -14,6 +17,37 @@ import AiAudio from "./pages/AiAudio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+function AppLayout() {
+  const isMobile = useIsMobile();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <div className="flex h-screen w-full overflow-hidden">
+      {/* Desktop sidebar */}
+      {!isMobile && <AppSidebar />}
+
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <AppHeader onMobileMenuOpen={() => setMobileOpen(true)} />
+        <main className="flex-1 overflow-auto">
+          <Routes>
+            <Route path="/" element={<Navigate to="/ai-chat" replace />} />
+            <Route path="/ai-chat" element={<AiChat />} />
+            <Route path="/ai-image" element={<AiImage />} />
+            <Route path="/ai-video" element={<AiVideo />} />
+            <Route path="/ai-audio" element={<AiAudio />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+
+      {/* Mobile sidebar sheet */}
+      {isMobile && (
+        <MobileSidebar open={mobileOpen} onOpenChange={setMobileOpen} />
+      )}
+    </div>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,22 +57,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <div className="flex h-screen w-full overflow-hidden">
-              <AppSidebar />
-              <div className="flex-1 flex flex-col overflow-hidden">
-                <AppHeader />
-                <main className="flex-1 overflow-auto">
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/ai-chat" replace />} />
-                    <Route path="/ai-chat" element={<AiChat />} />
-                    <Route path="/ai-image" element={<AiImage />} />
-                    <Route path="/ai-video" element={<AiVideo />} />
-                    <Route path="/ai-audio" element={<AiAudio />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-              </div>
-            </div>
+            <AppLayout />
           </BrowserRouter>
         </TooltipProvider>
       </SidebarProvider>
