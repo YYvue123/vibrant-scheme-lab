@@ -68,6 +68,7 @@ export function AppSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { collapsed } = useSidebarState();
 
   const [vipOpen, setVipOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
@@ -78,9 +79,21 @@ export function AppSidebar() {
 
   return (
     <>
-      <aside className="flex flex-col h-screen w-[72px] bg-sidebar border-r border-border shrink-0">
+      <aside
+        className={`flex flex-col h-screen bg-sidebar border-r border-border shrink-0 transition-all duration-200 ${
+          collapsed ? "w-0 overflow-hidden border-r-0" : "w-[72px]"
+        }`}
+      >
+        {/* Site name */}
+        <button
+          onClick={() => navigate("/")}
+          className="h-12 flex items-center justify-center border-b border-border shrink-0"
+        >
+          <span className="text-sm font-semibold italic tracking-tight text-foreground">Rita</span>
+        </button>
+
         {/* Top nav */}
-        <nav className="flex flex-col items-center gap-1 pt-4 flex-1">
+        <nav className="flex flex-col items-center gap-1 pt-2 flex-1">
           {navItems.map((item) => {
             const active = location.pathname === item.path;
             return (
