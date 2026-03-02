@@ -114,7 +114,7 @@ export function AppSidebar() {
         className={`flex flex-col h-screen bg-sidebar border-r border-border shrink-0 transition-all duration-200 ${sidebarWidth}`}
       >
         {/* Header: Rita + collapse toggle */}
-        <div className={`h-12 flex items-center border-b border-border shrink-0 ${collapsed ? "justify-center px-1" : "justify-between px-3"}`}>
+        <div className={`h-12 flex items-center shrink-0 ${collapsed ? "justify-center px-1" : "justify-between px-3"}`}>
           {!collapsed && (
             <button
               onClick={() => navigate("/")}
