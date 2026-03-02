@@ -25,26 +25,14 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "@/components/ui/drawer";
 import qrcodeImg from "@/assets/qrcode.png";
 
 const navItems = [
@@ -168,18 +156,13 @@ export function MobileSidebar({
             </button>
 
             {/* Customer service */}
-            <Popover open={serviceOpen} onOpenChange={setServiceOpen}>
-              <PopoverTrigger asChild>
-                <button className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-11 text-foreground hover:bg-accent cursor-pointer">
-                  <Headphones className="h-[18px] w-[18px] shrink-0" />
-                  <span>在线客服</span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent side="bottom" className="w-48 p-2">
-                <p className="text-xs text-muted-foreground mb-2 text-center">扫码联系客服</p>
-                <img src={qrcodeImg} alt="客服二维码" className="w-full rounded" />
-              </PopoverContent>
-            </Popover>
+            <button
+              onClick={() => { setServiceOpen(true); onOpenChange(false); }}
+              className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-11 text-foreground hover:bg-accent cursor-pointer"
+            >
+              <Headphones className="h-[18px] w-[18px] shrink-0" />
+              <span>在线客服</span>
+            </button>
 
             {/* Theme */}
             <button
@@ -218,33 +201,12 @@ export function MobileSidebar({
               </div>
 
               <button
-                onClick={() => setQuotaOpen(!quotaOpen)}
+                onClick={() => { setQuotaOpen(true); onOpenChange(false); }}
                 className="flex items-center gap-1 mt-2 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
                 <Info className="h-3 w-3" />
                 配额使用说明
               </button>
-
-              {quotaOpen && (
-                <div className="mt-2 pt-2 border-t border-border space-y-1.5">
-                  {quotaModels.map((m) => (
-                    <div key={m.name} className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px]">{m.icon}</span>
-                        <span>{m.name}</span>
-                      </div>
-                      {m.free ? (
-                        <span className="text-emerald-500 text-[11px]">免费</span>
-                      ) : (
-                        <span className="flex items-center gap-0.5 text-primary">
-                          <Zap className="h-3 w-3" />
-                          {m.cost}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
 
               <div className="flex gap-2 mt-3 pt-2 border-t border-border">
                 <button
@@ -267,50 +229,142 @@ export function MobileSidebar({
         </SheetContent>
       </Sheet>
 
-      {/* Dialogs */}
-      <Dialog open={vipOpen} onOpenChange={setVipOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>开通会员</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">会员功能正在开发中，敬请期待！解锁更多高级功能与更多配额。</p>
-        </DialogContent>
-      </Dialog>
+      {/* Quota Drawer - full model list */}
+      <Drawer open={quotaOpen} onOpenChange={setQuotaOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>配额使用说明</DrawerTitle>
+            <DrawerDescription>每次对话消耗的配额数量因模型而异</DrawerDescription>
+          </DrawerHeader>
+          <div className="px-4 pb-2 max-h-[50vh] overflow-y-auto">
+            <div className="space-y-2">
+              {quotaModels.map((m) => (
+                <div key={m.name} className="flex items-center justify-between py-2 px-3 rounded-lg bg-accent/40">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-sm">{m.icon}</span>
+                    <span className="text-sm">{m.name}</span>
+                  </div>
+                  {m.free ? (
+                    <span className="text-emerald-500 text-xs font-medium bg-emerald-500/10 px-2 py-0.5 rounded">免费</span>
+                  ) : (
+                    <span className="flex items-center gap-0.5 text-primary text-sm font-medium">
+                      <Zap className="h-3.5 w-3.5" />
+                      {m.cost}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <Dialog open={redeemOpen} onOpenChange={setRedeemOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>兑换</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">请输入您的兑换码以兑换相应配额或会员权益。兑换功能即将上线。</p>
-        </DialogContent>
-      </Dialog>
+      {/* VIP Drawer */}
+      <Drawer open={vipOpen} onOpenChange={setVipOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>开通会员</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-2">
+            <p className="text-muted-foreground text-sm">会员功能正在开发中，敬请期待！解锁更多高级功能与更多配额。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>对话设置</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
-        </DialogContent>
-      </Dialog>
+      {/* Redeem Drawer */}
+      <Drawer open={redeemOpen} onOpenChange={setRedeemOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>兑换</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-2">
+            <p className="text-muted-foreground text-sm">请输入您的兑换码以兑换相应配额或会员权益。兑换功能即将上线。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>确认退出登录？</AlertDialogTitle>
-            <AlertDialogDescription>
-              退出登录后将返回登录页面，您的数据不会丢失。
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>取消</AlertDialogCancel>
-            <AlertDialogAction onClick={() => setLogoutOpen(false)}>
+      {/* Settings Drawer */}
+      <Drawer open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>对话设置</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-2">
+            <p className="text-muted-foreground text-sm">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Customer Service Drawer */}
+      <Drawer open={serviceOpen} onOpenChange={setServiceOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>在线客服</DrawerTitle>
+            <DrawerDescription>扫码联系客服</DrawerDescription>
+          </DrawerHeader>
+          <div className="px-4 pb-2 flex justify-center">
+            <img src={qrcodeImg} alt="客服二维码" className="w-48 rounded" />
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Logout Drawer */}
+      <Drawer open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>确认退出登录？</DrawerTitle>
+            <DrawerDescription>退出登录后将返回登录页面，您的数据不会丢失。</DrawerDescription>
+          </DrawerHeader>
+          <DrawerFooter className="flex-row gap-3">
+            <DrawerClose asChild>
+              <button className="flex-1 h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                取消
+              </button>
+            </DrawerClose>
+            <button
+              onClick={() => setLogoutOpen(false)}
+              className="flex-1 h-10 rounded-lg bg-destructive text-destructive-foreground text-sm font-medium hover:bg-destructive/90 transition-colors cursor-pointer"
+            >
               确认退出
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
