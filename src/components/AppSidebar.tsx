@@ -20,21 +20,14 @@ import {
   PanelLeft,
 } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "@/components/ui/drawer";
 import {
   Popover,
   PopoverContent,
@@ -105,6 +98,7 @@ export function AppSidebar() {
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [avatarPopover, setAvatarPopover] = useState(false);
+  const [quotaDrawerOpen, setQuotaDrawerOpen] = useState(false);
 
   const sidebarWidth = collapsed ? "w-[52px]" : "w-[180px]";
 
@@ -118,14 +112,14 @@ export function AppSidebar() {
           {!collapsed && (
             <button
               onClick={() => navigate("/")}
-              className="text-sm font-semibold italic tracking-tight text-foreground"
+              className="text-sm font-semibold italic tracking-tight text-foreground cursor-pointer"
             >
               Rita
             </button>
           )}
           <button
             onClick={toggle}
-            className="h-7 w-7 flex items-center justify-center rounded-md hover:bg-sidebar-hover transition-colors text-sidebar-foreground shrink-0"
+            className="h-7 w-7 flex items-center justify-center rounded-md hover:bg-sidebar-hover transition-colors text-sidebar-foreground shrink-0 cursor-pointer"
           >
             <PanelLeft className="h-4 w-4" />
           </button>
@@ -139,7 +133,7 @@ export function AppSidebar() {
               <SidebarItem key={item.path} collapsed={collapsed} label={item.label}>
                 <button
                   onClick={() => navigate(item.path)}
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 ${
+                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   } ${
                     active
@@ -161,7 +155,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="开通会员">
             <button
               onClick={() => setVipOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -174,7 +168,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="兑换">
             <button
               onClick={() => setRedeemOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -188,7 +182,7 @@ export function AppSidebar() {
             <SidebarItem collapsed={collapsed} label="在线客服">
               <PopoverTrigger asChild>
                 <button
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   }`}
                 >
@@ -207,7 +201,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label={theme === "dark" ? "浅色模式" : "深色模式"}>
             <button
               onClick={toggleTheme}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -224,7 +218,7 @@ export function AppSidebar() {
           <Popover open={avatarPopover} onOpenChange={setAvatarPopover}>
             <PopoverTrigger asChild>
               <button
-                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover ${
+                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover cursor-pointer ${
                   collapsed ? "justify-center px-0" : ""
                 }`}
               >
@@ -256,35 +250,16 @@ export function AppSidebar() {
                     <span className="font-bold">828</span>
                   </div>
                 </div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <button className="flex items-center gap-1 mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                      <Info className="h-3 w-3" />
-                      配额使用说明
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent side="right" className="w-64 p-3">
-                    <p className="text-xs font-medium mb-2">配额使用说明</p>
-                    <div className="space-y-1.5">
-                      {quotaModels.map((m) => (
-                        <div key={m.name} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px]">{m.icon}</span>
-                            <span>{m.name}</span>
-                          </div>
-                          {m.free ? (
-                            <span className="text-emerald-500 text-[11px]">免费</span>
-                          ) : (
-                            <span className="flex items-center gap-0.5 text-primary">
-                              <Zap className="h-3 w-3" />
-                              {m.cost}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <button
+                  onClick={() => {
+                    setAvatarPopover(false);
+                    setQuotaDrawerOpen(true);
+                  }}
+                  className="flex items-center gap-1 mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <Info className="h-3 w-3" />
+                  配额使用说明
+                </button>
               </div>
 
               {/* Actions */}
@@ -294,7 +269,7 @@ export function AppSidebar() {
                     setAvatarPopover(false);
                     setSettingsOpen(true);
                   }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent transition-colors"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent transition-colors cursor-pointer"
                 >
                   <Settings className="h-4 w-4" />
                   对话设置
@@ -304,7 +279,7 @@ export function AppSidebar() {
                     setAvatarPopover(false);
                     setLogoutOpen(true);
                   }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-destructive transition-colors"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-destructive transition-colors cursor-pointer"
                 >
                   <LogOut className="h-4 w-4" />
                   退出登录
@@ -315,50 +290,120 @@ export function AppSidebar() {
         </div>
       </aside>
 
-      {/* Dialogs */}
-      <Dialog open={vipOpen} onOpenChange={setVipOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>开通会员</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">会员功能正在开发中，敬请期待！解锁更多高级功能与更多配额。</p>
-        </DialogContent>
-      </Dialog>
+      {/* Quota Drawer */}
+      <Drawer open={quotaDrawerOpen} onOpenChange={setQuotaDrawerOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>配额使用说明</DrawerTitle>
+            <DrawerDescription>不同模型每次对话消耗的配额数量</DrawerDescription>
+          </DrawerHeader>
+          <div className="px-4 pb-2 space-y-2 max-h-[50vh] overflow-y-auto">
+            {quotaModels.map((m) => (
+              <div key={m.name} className="flex items-center justify-between py-2 px-3 rounded-lg bg-accent/40">
+                <div className="flex items-center gap-3">
+                  <span className="text-base">{m.icon}</span>
+                  <span className="text-sm">{m.name}</span>
+                </div>
+                {m.free ? (
+                  <span className="text-emerald-500 text-xs font-medium bg-emerald-500/10 px-2 py-0.5 rounded">免费</span>
+                ) : (
+                  <span className="flex items-center gap-1 text-primary text-sm font-medium">
+                    <Zap className="h-3.5 w-3.5" />
+                    {m.cost}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <Dialog open={redeemOpen} onOpenChange={setRedeemOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>兑换</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">请输入您的兑换码以兑换相应配额或会员权益。兑换功能即将上线。</p>
-        </DialogContent>
-      </Dialog>
+      {/* VIP Drawer */}
+      <Drawer open={vipOpen} onOpenChange={setVipOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>开通会员</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-4">
+            <p className="text-muted-foreground text-sm">会员功能正在开发中，敬请期待！解锁更多高级功能与更多配额。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>对话设置</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
-        </DialogContent>
-      </Dialog>
+      {/* Redeem Drawer */}
+      <Drawer open={redeemOpen} onOpenChange={setRedeemOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>兑换</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-4">
+            <p className="text-muted-foreground text-sm">请输入您的兑换码以兑换相应配额或会员权益。兑换功能即将上线。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
-      <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>确认退出登录？</AlertDialogTitle>
-            <AlertDialogDescription>
-              退出登录后将返回登录页面，您的数据不会丢失。
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>取消</AlertDialogCancel>
-            <AlertDialogAction onClick={() => setLogoutOpen(false)}>
+      {/* Settings Drawer */}
+      <Drawer open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>对话设置</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-4">
+            <p className="text-muted-foreground text-sm">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                关闭
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Logout Drawer */}
+      <Drawer open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>确认退出登录？</DrawerTitle>
+            <DrawerDescription>退出登录后将返回登录页面，您的数据不会丢失。</DrawerDescription>
+          </DrawerHeader>
+          <DrawerFooter>
+            <button
+              onClick={() => setLogoutOpen(false)}
+              className="w-full h-10 rounded-lg bg-destructive text-destructive-foreground text-sm font-medium hover:bg-destructive/90 transition-colors cursor-pointer"
+            >
               确认退出
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </button>
+            <DrawerClose asChild>
+              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
+                取消
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
