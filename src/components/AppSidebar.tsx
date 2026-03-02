@@ -114,13 +114,15 @@ export function AppSidebar() {
         className={`flex flex-col h-screen bg-sidebar border-r border-border shrink-0 transition-all duration-200 ${sidebarWidth}`}
       >
         {/* Header: Rita + collapse toggle */}
-        <div className="h-12 flex items-center justify-between border-b border-border shrink-0 px-3">
-          <button
-            onClick={() => navigate("/")}
-            className="text-sm font-semibold italic tracking-tight text-foreground"
-          >
-            Rita
-          </button>
+        <div className={`h-12 flex items-center border-b border-border shrink-0 ${collapsed ? "justify-center px-1" : "justify-between px-3"}`}>
+          {!collapsed && (
+            <button
+              onClick={() => navigate("/")}
+              className="text-sm font-semibold italic tracking-tight text-foreground"
+            >
+              Rita
+            </button>
+          )}
           <button
             onClick={toggle}
             className="h-7 w-7 flex items-center justify-center rounded-md hover:bg-sidebar-hover transition-colors text-sidebar-foreground shrink-0"
