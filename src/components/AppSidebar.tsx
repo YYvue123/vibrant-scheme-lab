@@ -14,6 +14,8 @@ import {
   LogOut,
   Settings,
   User,
+  Zap,
+  Info,
 } from "lucide-react";
 import {
   Dialog,
@@ -43,6 +45,22 @@ const navItems = [
   { icon: Image, label: "AI 生图", path: "/ai-image" },
   { icon: Video, label: "AI 视频", path: "/ai-video" },
   { icon: Music, label: "AI 音频", path: "/ai-audio" },
+];
+
+const quotaModels = [
+  { name: "Claude-Opus-4.6", icon: "🟣", cost: 3 },
+  { name: "Gemini-3-Pro-Thinking", icon: "🔵", cost: 1 },
+  { name: "Gemini-3-Pro", icon: "🔵", cost: 1 },
+  { name: "Gemini-3-Flash", icon: "🔵", cost: 1 },
+  { name: "Grok-4.1", icon: "⚫", cost: 1 },
+  { name: "Rita-Pro", icon: "🟢", cost: 1 },
+  { name: "Rita", icon: "🟢", cost: 0, free: true },
+  { name: "GPT-5.1", icon: "⚪", cost: 1 },
+  { name: "GPT-5.2", icon: "⚪", cost: 1 },
+  { name: "GPT-5.1-Thinking", icon: "⚪", cost: 1 },
+  { name: "DeepSeek-V3.1", icon: "🔵", cost: 1 },
+  { name: "Claude-4.5-Sonnet", icon: "🟠", cost: 1 },
+  { name: "Claude-Opus-4.6-Thinking", icon: "🟣", cost: 3 },
 ];
 
 export function AppSidebar() {
