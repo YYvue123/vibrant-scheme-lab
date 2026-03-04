@@ -138,7 +138,7 @@ export function AppSidebar() {
               <SidebarItem key={item.path} collapsed={collapsed} label={item.label}>
                 <button
                   onClick={() => navigate(item.path)}
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
+                  className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   } ${
                   active
