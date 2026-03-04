@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
+import { useMockAuth } from "@/hooks/use-mock-auth";
 import {
   MessageSquare,
   Image,
@@ -12,12 +13,12 @@ import {
   Sun,
   Moon,
   LogOut,
-  Settings,
   User,
   Zap,
   Info,
   Menu,
   X,
+  LogIn,
 } from "lucide-react";
 import {
   Sheet,
@@ -80,13 +81,15 @@ export function MobileSidebar({
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { isLoggedIn, user, login, logout } = useMockAuth();
 
   const [vipOpen, setVipOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [quotaOpen, setQuotaOpen] = useState(false);
+
+  const totalQuota = user ? user.subscriptionQuota + user.extraQuota : 0;
 
   const handleNav = (path: string) => {
     navigate(path);
@@ -177,59 +180,64 @@ export function MobileSidebar({
               <span>{theme === "dark" ? "浅色" : "深色"}</span>
             </button>
 
-            {/* User info bar */}
-            <div className="mt-2 p-3 rounded-lg bg-accent/50">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                  <User className="h-4 w-4 text-primary" />
+            {/* User info bar or login prompt */}
+            {isLoggedIn ? (
+              <div className="mt-2 p-3 rounded-lg bg-accent/50">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                    <User className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-foreground">{user?.name}</span>
+                    <span className="text-xs text-primary font-medium">⚡ {totalQuota}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-foreground">用户</span>
-                  <span className="text-xs text-primary font-medium">⚡ 838</span>
+
+                <div className="space-y-1.5 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground text-xs">订阅额度:</span>
+                    <span className="text-xs font-bold">{user?.subscriptionQuota} / {user?.subscriptionQuotaMax}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground text-xs">更多配额:</span>
+                    <span className="text-xs font-bold">{user?.extraQuota}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => { setQuotaOpen(true); onOpenChange(false); }}
+                  className="flex items-center gap-1 mt-2 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <Info className="h-3 w-3" />
+                  配额使用说明
+                </button>
+
+                <div className="flex gap-2 mt-3 pt-2 border-t border-border">
+                  <button
+                    onClick={() => { setLogoutOpen(true); onOpenChange(false); }}
+                    className="flex items-center gap-1.5 text-xs text-destructive hover:opacity-80 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    退出登录
+                  </button>
                 </div>
               </div>
-
-              <div className="space-y-1.5 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground text-xs">订阅额度:</span>
-                  <span className="text-xs font-bold">10 / 10</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground text-xs">更多配额:</span>
-                  <span className="text-xs font-bold">828</span>
-                </div>
-              </div>
-
+            ) : (
               <button
-                onClick={() => { setQuotaOpen(true); onOpenChange(false); }}
-                className="flex items-center gap-1 mt-2 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                onClick={() => { login(); onOpenChange(false); }}
+                className="mt-2 flex items-center gap-3 p-3 rounded-lg bg-accent/50 hover:bg-accent transition-colors cursor-pointer"
               >
-                <Info className="h-3 w-3" />
-                配额使用说明
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
+                  <LogIn className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <span className="text-sm text-muted-foreground">登录 / 注册</span>
               </button>
-
-              <div className="flex gap-2 mt-3 pt-2 border-t border-border">
-                <button
-                  onClick={() => { setSettingsOpen(true); onOpenChange(false); }}
-                  className="flex items-center gap-1.5 text-xs text-foreground hover:text-primary transition-colors cursor-pointer"
-                >
-                  <Settings className="h-3.5 w-3.5" />
-                  对话设置
-                </button>
-                <button
-                  onClick={() => { setLogoutOpen(true); onOpenChange(false); }}
-                  className="flex items-center gap-1.5 text-xs text-destructive hover:opacity-80 transition-colors cursor-pointer"
-                >
-                  <LogOut className="h-3.5 w-3.5" />
-                  退出登录
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         </SheetContent>
       </Sheet>
 
-      {/* Quota Drawer - full model list */}
+      {/* Quota Drawer */}
       <Drawer open={quotaOpen} onOpenChange={setQuotaOpen}>
         <DrawerContent>
           <DrawerHeader className="text-left">
@@ -304,25 +312,6 @@ export function MobileSidebar({
         </DrawerContent>
       </Drawer>
 
-      {/* Settings Drawer */}
-      <Drawer open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DrawerContent>
-          <DrawerHeader className="text-left">
-            <DrawerTitle>对话设置</DrawerTitle>
-          </DrawerHeader>
-          <div className="px-4 pb-2">
-            <p className="text-muted-foreground text-sm">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
-          </div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
-                关闭
-              </button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-
       {/* Customer Service Drawer */}
       <Drawer open={serviceOpen} onOpenChange={setServiceOpen}>
         <DrawerContent>
@@ -357,7 +346,7 @@ export function MobileSidebar({
               </button>
             </DrawerClose>
             <button
-              onClick={() => setLogoutOpen(false)}
+              onClick={() => { setLogoutOpen(false); logout(); }}
               className="flex-1 h-10 rounded-lg bg-destructive text-destructive-foreground text-sm font-medium hover:bg-destructive/90 transition-colors cursor-pointer"
             >
               确认退出
