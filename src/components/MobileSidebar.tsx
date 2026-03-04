@@ -212,7 +212,6 @@ export function MobileSidebar({
               </button>
             )}
           </div>
-          </div>
         </SheetContent>
       </Sheet>
 
