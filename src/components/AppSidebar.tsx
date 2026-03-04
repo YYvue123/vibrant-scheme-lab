@@ -110,7 +110,7 @@ export function AppSidebar() {
   return (
     <>
       <aside
-        className={`flex flex-col h-screen bg-sidebar border-r border-border/40 shrink-0 transition-all duration-200 ${sidebarWidth}`}
+        className={`flex flex-col h-screen bg-sidebar border-r border-border/20 shrink-0 transition-all duration-200 ${sidebarWidth}`}
       >
         {/* Header: Rita + collapse toggle */}
         <div className={`h-12 flex items-center shrink-0 ${collapsed ? "justify-center px-1" : "justify-between px-3"}`}>
@@ -141,8 +141,8 @@ export function AppSidebar() {
                   className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   } ${
-                    active
-                      ? "bg-primary/15 text-primary font-medium"
+                  active
+                      ? "bg-sidebar-hover text-primary font-medium"
                       : "text-sidebar-foreground hover:bg-sidebar-hover"
                   }`}
                 >
@@ -239,9 +239,9 @@ export function AppSidebar() {
                   )}
                 </button>
               </PopoverTrigger>
-              <PopoverContent side="right" align="end" className="w-64 p-0">
+              <PopoverContent side="right" align="end" className="w-64 p-0 border-border/40">
                 {/* Plan & Quota section */}
-                <div className="p-4 border-b border-border">
+                <div className="p-4 border-b border-border/40">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-medium">你的计划</span>
                     <span className="text-xs text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">可用</span>
@@ -265,7 +265,7 @@ export function AppSidebar() {
                       setAvatarPopover(false);
                       setLogoutOpen(true);
                     }}
-                    className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-destructive transition-colors cursor-pointer"
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-red-500 dark:text-red-400 transition-colors cursor-pointer"
                   >
                     <LogOut className="h-4 w-4" />
                     退出登录

@@ -110,8 +110,8 @@ export function MobileSidebar({
                   key={item.path}
                   onClick={() => handleNav(item.path)}
                   className={`flex items-center gap-3.5 rounded-lg text-[15px] transition-colors px-3 h-12 cursor-pointer ${
-                    active
-                      ? "bg-primary/15 text-primary font-medium"
+                  active
+                      ? "bg-accent text-primary font-medium"
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
@@ -192,7 +192,7 @@ export function MobileSidebar({
                 <div className="flex gap-2 mt-3 pt-2 border-t border-border">
                   <button
                     onClick={() => { setLogoutOpen(true); onOpenChange(false); }}
-                    className="flex items-center gap-1.5 text-xs text-destructive hover:opacity-80 transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400 hover:opacity-80 transition-colors cursor-pointer"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     退出登录
