@@ -109,13 +109,13 @@ export function MobileSidebar({
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
+                  className={`flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 cursor-pointer ${
                   active
                       ? "bg-accent font-medium text-foreground"
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
-                  <item.icon className="h-[18px] w-[18px] shrink-0" />
+                  <item.icon className="h-4 w-4 shrink-0" />
                   <span>{item.label}</span>
                 </button>
               );
