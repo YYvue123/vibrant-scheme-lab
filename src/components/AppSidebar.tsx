@@ -131,7 +131,7 @@ export function AppSidebar() {
         </div>
 
         {/* Top nav */}
-        <nav className="flex flex-col gap-0.5 pt-2 px-2 flex-1">
+        <nav className="flex flex-col gap-1 pt-2 px-2 flex-1">
           {navItems.map((item) => {
             const active = location.pathname === item.path;
             return (
@@ -155,12 +155,12 @@ export function AppSidebar() {
         </nav>
 
         {/* Bottom actions */}
-        <div className="flex flex-col gap-0.5 px-2 pb-3">
+        <div className="flex flex-col gap-1 px-2 pb-3">
           {/* VIP */}
           <SidebarItem collapsed={collapsed} label="开通会员">
             <button
               onClick={() => setVipOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-sidebar-hover cursor-pointer ${
+              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-amber-500 hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -173,7 +173,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="兑换">
             <button
               onClick={() => setRedeemOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -187,7 +187,7 @@ export function AppSidebar() {
             <SidebarItem collapsed={collapsed} label="在线客服">
               <PopoverTrigger asChild>
                 <button
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+                  className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   }`}
                 >
@@ -206,7 +206,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label={theme === "dark" ? "浅色模式" : "深色模式"}>
             <button
               onClick={toggleTheme}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
