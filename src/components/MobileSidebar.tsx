@@ -87,7 +87,7 @@ export function MobileSidebar({
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
-  const [quotaOpen, setQuotaOpen] = useState(false);
+  
 
   const totalQuota = user ? user.subscriptionQuota + user.extraQuota : 0;
 
@@ -206,13 +206,6 @@ export function MobileSidebar({
                   </div>
                 </div>
 
-                <button
-                  onClick={() => { setQuotaOpen(true); onOpenChange(false); }}
-                  className="flex items-center gap-1 mt-2 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                >
-                  <Info className="h-3 w-3" />
-                  配额使用说明
-                </button>
 
                 <div className="flex gap-2 mt-3 pt-2 border-t border-border">
                   <button
@@ -240,42 +233,6 @@ export function MobileSidebar({
         </SheetContent>
       </Sheet>
 
-      {/* Quota Drawer */}
-      <Drawer open={quotaOpen} onOpenChange={setQuotaOpen}>
-        <DrawerContent>
-          <DrawerHeader className="text-left">
-            <DrawerTitle>配额使用说明</DrawerTitle>
-            <DrawerDescription>每次对话消耗的配额数量因模型而异</DrawerDescription>
-          </DrawerHeader>
-          <div className="px-4 pb-2 max-h-[50vh] overflow-y-auto">
-            <div className="space-y-2">
-              {quotaModels.map((m) => (
-                <div key={m.name} className="flex items-center justify-between py-2 px-3 rounded-lg bg-accent/40">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-sm">{m.icon}</span>
-                    <span className="text-sm">{m.name}</span>
-                  </div>
-                  {m.free ? (
-                    <span className="text-emerald-500 text-xs font-medium bg-emerald-500/10 px-2 py-0.5 rounded">免费</span>
-                  ) : (
-                    <span className="flex items-center gap-0.5 text-primary text-sm font-medium">
-                      <Zap className="h-3.5 w-3.5" />
-                      {m.cost}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <button className="w-full h-10 rounded-lg bg-accent text-foreground text-sm font-medium hover:bg-accent/80 transition-colors cursor-pointer">
-                关闭
-              </button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
 
       {/* VIP Drawer */}
       <Drawer open={vipOpen} onOpenChange={setVipOpen}>
