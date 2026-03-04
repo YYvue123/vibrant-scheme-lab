@@ -117,8 +117,10 @@ export function MobileSidebar({
             </button>
           </div>
 
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto min-h-0 flex flex-col">
           {/* Nav */}
-          <nav className="flex flex-col gap-0.5 pt-2 px-3 flex-1">
+          <nav className="flex flex-col gap-0.5 pt-2 px-3">
             {navItems.map((item) => {
               const active = location.pathname === item.path;
               return (
@@ -233,6 +235,7 @@ export function MobileSidebar({
                 <span className="text-sm text-muted-foreground">登录 / 注册</span>
               </button>
             )}
+          </div>
           </div>
         </SheetContent>
       </Sheet>
