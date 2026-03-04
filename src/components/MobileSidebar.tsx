@@ -109,13 +109,13 @@ export function MobileSidebar({
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
+                  className={`flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 cursor-pointer ${
                   active
                       ? "bg-accent font-medium text-foreground"
                       : "text-foreground hover:bg-accent"
                   }`}
                 >
-                  <item.icon className="h-[18px] w-[18px] shrink-0" />
+                  <item.icon className="h-4 w-4 shrink-0" />
                   <span>{item.label}</span>
                 </button>
               );
@@ -127,39 +127,39 @@ export function MobileSidebar({
             {/* VIP */}
             <button
               onClick={() => { setVipOpen(true); onOpenChange(false); }}
-              className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-accent cursor-pointer"
+              className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-amber-500 hover:bg-accent cursor-pointer"
             >
-              <Crown className="h-[18px] w-[18px] shrink-0" />
+              <Crown className="h-4 w-4 shrink-0" />
               <span>开通会员</span>
             </button>
 
             {/* Redeem */}
             <button
               onClick={() => { setRedeemOpen(true); onOpenChange(false); }}
-              className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-foreground hover:bg-accent cursor-pointer"
+              className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
             >
-              <Gift className="h-[18px] w-[18px] shrink-0" />
+              <Gift className="h-4 w-4 shrink-0" />
               <span>兑换</span>
             </button>
 
             {/* Customer service */}
             <button
               onClick={() => { setServiceOpen(true); onOpenChange(false); }}
-              className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-foreground hover:bg-accent cursor-pointer"
+              className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
             >
-              <Headphones className="h-[18px] w-[18px] shrink-0" />
+              <Headphones className="h-4 w-4 shrink-0" />
               <span>在线客服</span>
             </button>
 
             {/* Theme */}
             <button
               onClick={toggleTheme}
-              className="flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-foreground hover:bg-accent cursor-pointer"
+              className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
             >
               {theme === "dark" ? (
-                <Sun className="h-5 w-5 shrink-0" />
+                <Sun className="h-4 w-4 shrink-0" />
               ) : (
-                <Moon className="h-5 w-5 shrink-0" />
+                <Moon className="h-4 w-4 shrink-0" />
               )}
               <span>{theme === "dark" ? "浅色" : "深色"}</span>
             </button>
