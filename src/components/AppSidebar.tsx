@@ -15,8 +15,6 @@ import {
   Moon,
   LogOut,
   User,
-  Zap,
-  Info,
   PanelLeft,
   LogIn,
 } from "lucide-react";
