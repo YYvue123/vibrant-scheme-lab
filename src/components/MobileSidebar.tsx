@@ -99,8 +99,8 @@ export function MobileSidebar({
             </button>
           </div>
 
-          {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto min-h-0 flex flex-col">
+          {/* Scrollable nav area */}
+          <div className="flex-1 overflow-y-auto min-h-0">
           {/* Nav */}
           <nav className="flex flex-col pt-1 px-3">
             {navItems.map((item) => {
@@ -121,9 +121,10 @@ export function MobileSidebar({
               );
             })}
           </nav>
+          </div>
 
-          {/* Bottom */}
-          <div className="flex flex-col px-3 pb-4 border-t border-border/30 pt-2">
+          {/* Bottom - sticky */}
+          <div className="flex flex-col px-3 pb-4 border-t border-border/30 pt-2 shrink-0">
             {/* VIP */}
             <button
               onClick={() => { setVipOpen(true); onOpenChange(false); }}
