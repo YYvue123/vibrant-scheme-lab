@@ -5,9 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { SidebarProvider } from "@/hooks/use-sidebar-state";
+import { MockAuthProvider } from "@/hooks/use-mock-auth";
 import { AppSidebar } from "@/components/AppSidebar";
-import { AppHeader } from "@/components/AppHeader";
-import { MobileSidebar } from "@/components/MobileSidebar";
+import { MobileSidebar, MobileSidebarTrigger } from "@/components/MobileSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 import AiChat from "./pages/AiChat";
@@ -28,7 +28,12 @@ function AppLayout() {
       {!isMobile && <AppSidebar />}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <AppHeader onMobileMenuOpen={() => setMobileOpen(true)} />
+        {/* Mobile: floating trigger button instead of full header */}
+        {isMobile && (
+          <div className="absolute top-2 left-2 z-30">
+            <MobileSidebarTrigger onClick={() => setMobileOpen(true)} />
+          </div>
+        )}
         <main className="flex-1 overflow-auto">
           <Routes>
             <Route path="/" element={<Navigate to="/ai-chat" replace />} />
@@ -52,15 +57,17 @@ function AppLayout() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <SidebarProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppLayout />
-          </BrowserRouter>
-        </TooltipProvider>
-      </SidebarProvider>
+      <MockAuthProvider>
+        <SidebarProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppLayout />
+            </BrowserRouter>
+          </TooltipProvider>
+        </SidebarProvider>
+      </MockAuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );

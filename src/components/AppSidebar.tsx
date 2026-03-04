@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
 import { useSidebarState } from "@/hooks/use-sidebar-state";
+import { useMockAuth } from "@/hooks/use-mock-auth";
 import { useState } from "react";
 import {
   MessageSquare,
@@ -13,11 +14,11 @@ import {
   Sun,
   Moon,
   LogOut,
-  Settings,
   User,
   Zap,
   Info,
   PanelLeft,
+  LogIn,
 } from "lucide-react";
 import {
   Dialog,
@@ -70,7 +71,6 @@ const quotaModels = [
   { name: "Claude-Opus-4.6-Thinking", icon: "🟣", cost: 3 },
 ];
 
-// Wrapper: collapsed shows tooltip on hover
 function SidebarItem({
   collapsed,
   label,
@@ -98,34 +98,35 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const { collapsed, toggle } = useSidebarState();
+  const { isLoggedIn, user, login, logout } = useMockAuth();
 
   const [vipOpen, setVipOpen] = useState(false);
   const [redeemOpen, setRedeemOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [avatarPopover, setAvatarPopover] = useState(false);
 
   const sidebarWidth = collapsed ? "w-[52px]" : "w-[180px]";
+  const totalQuota = user ? user.subscriptionQuota + user.extraQuota : 0;
 
   return (
     <>
       <aside
-        className={`flex flex-col h-screen bg-sidebar border-r border-border shrink-0 transition-all duration-200 ${sidebarWidth}`}
+        className={`flex flex-col h-screen bg-sidebar border-r border-border/40 shrink-0 transition-all duration-200 ${sidebarWidth}`}
       >
         {/* Header: Rita + collapse toggle */}
         <div className={`h-12 flex items-center shrink-0 ${collapsed ? "justify-center px-1" : "justify-between px-3"}`}>
           {!collapsed && (
             <button
               onClick={() => navigate("/")}
-              className="text-sm font-semibold italic tracking-tight text-foreground"
+              className="text-sm font-semibold italic tracking-tight text-foreground cursor-pointer"
             >
               Rita
             </button>
           )}
           <button
             onClick={toggle}
-            className="h-7 w-7 flex items-center justify-center rounded-md hover:bg-sidebar-hover transition-colors text-sidebar-foreground shrink-0"
+            className="h-7 w-7 flex items-center justify-center rounded-md hover:bg-sidebar-hover transition-colors text-sidebar-foreground shrink-0 cursor-pointer"
           >
             <PanelLeft className="h-4 w-4" />
           </button>
@@ -139,7 +140,7 @@ export function AppSidebar() {
               <SidebarItem key={item.path} collapsed={collapsed} label={item.label}>
                 <button
                   onClick={() => navigate(item.path)}
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 ${
+                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   } ${
                     active
@@ -161,7 +162,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="开通会员">
             <button
               onClick={() => setVipOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-amber-500 hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -174,7 +175,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="兑换">
             <button
               onClick={() => setRedeemOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -188,7 +189,7 @@ export function AppSidebar() {
             <SidebarItem collapsed={collapsed} label="在线客服">
               <PopoverTrigger asChild>
                 <button
-                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                     collapsed ? "justify-center px-0" : ""
                   }`}
                 >
@@ -207,7 +208,7 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label={theme === "dark" ? "浅色模式" : "深色模式"}>
             <button
               onClick={toggleTheme}
-              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover ${
+              className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-3 h-10 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
@@ -220,98 +221,107 @@ export function AppSidebar() {
             </button>
           </SidebarItem>
 
-          {/* Avatar */}
-          <Popover open={avatarPopover} onOpenChange={setAvatarPopover}>
-            <PopoverTrigger asChild>
+          {/* Avatar / Login area */}
+          {isLoggedIn ? (
+            <Popover open={avatarPopover} onOpenChange={setAvatarPopover}>
+              <PopoverTrigger asChild>
+                <button
+                  className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover cursor-pointer ${
+                    collapsed ? "justify-center px-0" : ""
+                  }`}
+                >
+                  <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                    <User className="h-4 w-4 text-primary" />
+                  </div>
+                  {!collapsed && (
+                    <div className="flex items-center gap-1.5 text-sidebar-foreground">
+                      <span className="text-xs truncate">{user?.name}</span>
+                      <span className="text-xs text-primary font-medium">⚡ {totalQuota}</span>
+                    </div>
+                  )}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="right" align="end" className="w-64 p-0">
+                {/* Plan & Quota section */}
+                <div className="p-4 border-b border-border">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-medium">你的计划</span>
+                    <span className="text-xs text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">可用</span>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">订阅额度:</span>
+                      <span className="font-bold">{user?.subscriptionQuota} / {user?.subscriptionQuotaMax}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">更多配额:</span>
+                      <span className="font-bold">{user?.extraQuota}</span>
+                    </div>
+                  </div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="flex items-center gap-1 mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+                        <Info className="h-3 w-3" />
+                        配额使用说明
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent side="right" className="w-64 p-3">
+                      <p className="text-xs font-medium mb-2">配额使用说明</p>
+                      <div className="space-y-1.5">
+                        {quotaModels.map((m) => (
+                          <div key={m.name} className="flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px]">{m.icon}</span>
+                              <span>{m.name}</span>
+                            </div>
+                            {m.free ? (
+                              <span className="text-emerald-500 text-[11px]">免费</span>
+                            ) : (
+                              <span className="flex items-center gap-0.5 text-primary">
+                                <Zap className="h-3 w-3" />
+                                {m.cost}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                {/* Actions - no 对话设置 */}
+                <div className="p-1">
+                  <button
+                    onClick={() => {
+                      setAvatarPopover(false);
+                      setLogoutOpen(true);
+                    }}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-destructive transition-colors cursor-pointer"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    退出登录
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            /* Non-logged-in state */
+            <SidebarItem collapsed={collapsed} label="登录 / 注册">
               <button
-                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover ${
+                onClick={login}
+                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover cursor-pointer ${
                   collapsed ? "justify-center px-0" : ""
                 }`}
               >
-                <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                  <User className="h-4 w-4 text-primary" />
+                <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center shrink-0">
+                  <LogIn className="h-4 w-4 text-muted-foreground" />
                 </div>
                 {!collapsed && (
-                  <div className="flex items-center gap-1.5 text-sidebar-foreground">
-                    <span className="text-xs truncate">用户</span>
-                    <span className="text-xs text-primary font-medium">⚡ 838</span>
-                  </div>
+                  <span className="text-xs text-muted-foreground">登录 / 注册</span>
                 )}
               </button>
-            </PopoverTrigger>
-            <PopoverContent side="right" align="end" className="w-64 p-0">
-              {/* Plan & Quota section */}
-              <div className="p-4 border-b border-border">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium">你的计划</span>
-                  <span className="text-xs text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">可用</span>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">订阅额度:</span>
-                    <span className="font-bold">10 / 10</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">更多配额:</span>
-                    <span className="font-bold">828</span>
-                  </div>
-                </div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <button className="flex items-center gap-1 mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                      <Info className="h-3 w-3" />
-                      配额使用说明
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent side="right" className="w-64 p-3">
-                    <p className="text-xs font-medium mb-2">配额使用说明</p>
-                    <div className="space-y-1.5">
-                      {quotaModels.map((m) => (
-                        <div key={m.name} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px]">{m.icon}</span>
-                            <span>{m.name}</span>
-                          </div>
-                          {m.free ? (
-                            <span className="text-emerald-500 text-[11px]">免费</span>
-                          ) : (
-                            <span className="flex items-center gap-0.5 text-primary">
-                              <Zap className="h-3 w-3" />
-                              {m.cost}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              {/* Actions */}
-              <div className="p-1">
-                <button
-                  onClick={() => {
-                    setAvatarPopover(false);
-                    setSettingsOpen(true);
-                  }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent transition-colors"
-                >
-                  <Settings className="h-4 w-4" />
-                  对话设置
-                </button>
-                <button
-                  onClick={() => {
-                    setAvatarPopover(false);
-                    setLogoutOpen(true);
-                  }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded hover:bg-accent text-destructive transition-colors"
-                >
-                  <LogOut className="h-4 w-4" />
-                  退出登录
-                </button>
-              </div>
-            </PopoverContent>
-          </Popover>
+            </SidebarItem>
+          )}
         </div>
       </aside>
 
@@ -334,15 +344,6 @@ export function AppSidebar() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>对话设置</DialogTitle>
-          </DialogHeader>
-          <p className="text-muted-foreground">对话设置功能正在开发中，您可以在此调整对话相关偏好设置。</p>
-        </DialogContent>
-      </Dialog>
-
       <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -352,8 +353,8 @@ export function AppSidebar() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>取消</AlertDialogCancel>
-            <AlertDialogAction onClick={() => setLogoutOpen(false)}>
+            <AlertDialogCancel className="cursor-pointer">取消</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { setLogoutOpen(false); logout(); }} className="cursor-pointer">
               确认退出
             </AlertDialogAction>
           </AlertDialogFooter>
