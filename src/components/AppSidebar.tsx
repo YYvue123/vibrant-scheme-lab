@@ -142,7 +142,7 @@ export function AppSidebar() {
                     collapsed ? "justify-center px-0" : ""
                   } ${
                   active
-                      ? "bg-sidebar-hover text-primary font-medium"
+                      ? "bg-sidebar-hover font-medium text-sidebar-foreground"
                       : "text-sidebar-foreground hover:bg-sidebar-hover"
                   }`}
                 >
