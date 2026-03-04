@@ -258,35 +258,6 @@ export function AppSidebar() {
                       <span className="font-bold">{user?.extraQuota}</span>
                     </div>
                   </div>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <button className="flex items-center gap-1 mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-                        <Info className="h-3 w-3" />
-                        配额使用说明
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent side="right" className="w-64 p-3">
-                      <p className="text-xs font-medium mb-2">配额使用说明</p>
-                      <div className="space-y-1.5">
-                        {quotaModels.map((m) => (
-                          <div key={m.name} className="flex items-center justify-between text-xs">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[10px]">{m.icon}</span>
-                              <span>{m.name}</span>
-                            </div>
-                            {m.free ? (
-                              <span className="text-emerald-500 text-[11px]">免费</span>
-                            ) : (
-                              <span className="flex items-center gap-0.5 text-primary">
-                                <Zap className="h-3 w-3" />
-                                {m.cost}
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </PopoverContent>
-                  </Popover>
                 </div>
 
                 {/* Actions - no 对话设置 */}
