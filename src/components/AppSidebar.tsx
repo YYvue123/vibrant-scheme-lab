@@ -276,7 +276,7 @@ export function AppSidebar() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">剩余时间:</span>
-                      <span className="font-bold">{user?.remainingTime || "29d 0h 55m"}</span>
+                      <span className="font-bold">{user?.remainingTime}</span>
                     </div>
                   </div>
                 </div>
