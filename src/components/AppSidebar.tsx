@@ -251,7 +251,7 @@ export function AppSidebar() {
                     <User className="h-4 w-4 text-primary" />
                   </div>
                   {!collapsed && (
-                    <div className="flex items-center gap-1.5 text-sidebar-foreground">
+                    <div className="flex flex-col text-sidebar-foreground">
                       <span className="text-xs truncate">{user?.name}</span>
                       <span className="text-xs text-primary font-medium">⚡ {totalQuota}</span>
                     </div>
