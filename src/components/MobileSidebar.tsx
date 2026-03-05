@@ -158,11 +158,11 @@ export function MobileSidebar({
               className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
             >
               {theme === "dark" ? (
-                <Sun className="h-4 w-4 shrink-0" />
-              ) : (
                 <Moon className="h-4 w-4 shrink-0" />
+              ) : (
+                <Sun className="h-4 w-4 shrink-0" />
               )}
-              <span>{theme === "dark" ? "浅色" : "深色"}</span>
+              <span>{theme === "dark" ? "深色" : "浅色"}</span>
             </button>
 
             {/* User info bar or login prompt */}
@@ -203,7 +203,7 @@ export function MobileSidebar({
             ) : (
               <button
                 onClick={() => { login(); onOpenChange(false); }}
-                className="mt-2 flex items-center gap-3 p-3 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer"
+                className="mt-2 flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer"
               >
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                   <LogIn className="h-4 w-4 text-primary" />
