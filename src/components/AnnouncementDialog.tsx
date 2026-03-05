@@ -246,7 +246,7 @@ export function AnnouncementDialog({
           <DrawerHeader className="text-left">
             <DrawerTitle>最新动态</DrawerTitle>
           </DrawerHeader>
-          <ScrollArea className="max-h-[60vh]">
+          <ScrollArea className="max-h-[70vh] overflow-y-auto">
             <AnnouncementContent />
           </ScrollArea>
         </DrawerContent>
