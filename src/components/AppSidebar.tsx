@@ -278,15 +278,15 @@ export function AppSidebar() {
             <SidebarItem collapsed={collapsed} label="登录 / 注册">
               <button
                 onClick={login}
-                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover cursor-pointer ${
+                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 bg-primary/10 hover:bg-primary/20 cursor-pointer ${
                   collapsed ? "justify-center px-0" : ""
                 }`}
               >
-                <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <LogIn className="h-4 w-4 text-muted-foreground" />
+                <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                  <LogIn className="h-4 w-4 text-primary" />
                 </div>
                 {!collapsed && (
-                  <span className="text-xs text-muted-foreground">登录 / 注册</span>
+                  <span className="text-sm font-medium text-primary">登录 / 注册</span>
                 )}
               </button>
             </SidebarItem>

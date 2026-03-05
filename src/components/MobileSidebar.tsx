@@ -203,12 +203,12 @@ export function MobileSidebar({
             ) : (
               <button
                 onClick={() => { login(); onOpenChange(false); }}
-                className="mt-2 flex items-center gap-3 p-3 rounded-lg bg-accent/50 hover:bg-accent transition-colors cursor-pointer"
+                className="mt-2 flex items-center gap-3 p-3 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <LogIn className="h-4 w-4 text-muted-foreground" />
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                  <LogIn className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-sm text-muted-foreground">登录 / 注册</span>
+                <span className="text-sm font-medium text-primary">登录 / 注册</span>
               </button>
             )}
           </div>
