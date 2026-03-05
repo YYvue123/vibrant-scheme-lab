@@ -308,6 +308,8 @@ export function MobileSidebar({
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+
+      <AnnouncementDialog open={announcementOpen} onOpenChange={setAnnouncementOpen} />
     </>
   );
 }

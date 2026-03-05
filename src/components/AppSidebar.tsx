@@ -345,6 +345,8 @@ export function AppSidebar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <AnnouncementDialog open={announcementOpen} onOpenChange={setAnnouncementOpen} />
     </>
   );
 }
