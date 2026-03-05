@@ -186,37 +186,31 @@ function AnnouncementContent() {
     );
   }
 
-  // Desktop: two-column layout
+// Desktop: two-column layout
   return (
-    <div className="flex h-[480px]">
+    <div className="flex max-h-[480px]">
       {/* Left list */}
-      <ScrollArea className="w-[240px] border-r border-border shrink-0">
+      <ScrollArea className="w-[240px] shrink-0 max-h-[480px]">
         <div className="p-2 space-y-1">
-          <div className="px-3 py-2 text-xs text-muted-foreground font-medium">服务说明</div>
           {mockAnnouncements.map((a) => (
             <button
               key={a.id}
               onClick={() => setSelectedId(a.id)}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs transition-colors cursor-pointer ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors cursor-pointer ${
                 a.id === selectedId
-                  ? "bg-accent font-medium text-foreground"
-                  : "text-muted-foreground hover:bg-accent/50"
+                  ? "bg-accent text-foreground"
+                  : "bg-accent/40 text-muted-foreground hover:bg-accent/70"
               }`}
             >
-              <span>{a.icon} {a.tag}</span>
-              {a.title.length > 20 && (
-                <span className="block mt-0.5 text-[11px] opacity-70">
-                  {a.title.slice(0, 28)}...
-                </span>
-              )}
+              <span>{a.icon} {a.tag} | {a.title.split("——")[0]}</span>
             </button>
           ))}
         </div>
       </ScrollArea>
 
       {/* Right detail */}
-      <ScrollArea className="flex-1">
-        <div className="p-6 space-y-5">
+      <ScrollArea className="flex-1 max-h-[480px]">
+        <div className="p-6 space-y-5 bg-accent/30 min-h-full">
           <div>
             <h3 className="text-base font-semibold text-foreground">
               {selected.icon} {selected.title}
