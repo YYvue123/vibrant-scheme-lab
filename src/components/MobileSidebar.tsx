@@ -184,12 +184,12 @@ export function MobileSidebar({
             {isLoggedIn ? (
               <div className="mt-2 p-3 rounded-lg bg-accent/50">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                    <User className="h-4 w-4 text-primary" />
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+                    <User className="h-4 w-4 text-emerald-500" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-foreground">{user?.name}</span>
-                    <span className="text-xs text-primary font-medium">⚡ {totalQuota}</span>
+                    <span className="text-xs text-emerald-500 font-medium">⚡ {totalQuota}</span>
                   </div>
                 </div>
 
