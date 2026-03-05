@@ -203,19 +203,19 @@ export function AppSidebar() {
           </Popover>
 
           {/* Theme toggle */}
-          <SidebarItem collapsed={collapsed} label={theme === "dark" ? "浅色模式" : "深色模式"}>
+          <SidebarItem collapsed={collapsed} label={theme === "dark" ? "深色模式" : "浅色模式"}>
             <button
               onClick={toggleTheme}
-              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-2 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
               {theme === "dark" ? (
-                <Sun className="h-[18px] w-[18px] shrink-0" />
-              ) : (
                 <Moon className="h-[18px] w-[18px] shrink-0" />
+              ) : (
+                <Sun className="h-[18px] w-[18px] shrink-0" />
               )}
-              {!collapsed && <span className="truncate">{theme === "dark" ? "浅色" : "深色"}</span>}
+              {!collapsed && <span className="truncate">{theme === "dark" ? "深色" : "浅色"}</span>}
             </button>
           </SidebarItem>
 
@@ -278,7 +278,7 @@ export function AppSidebar() {
             <SidebarItem collapsed={collapsed} label="登录 / 注册">
               <button
                 onClick={login}
-                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 bg-primary/10 hover:bg-primary/20 cursor-pointer ${
+                className={`flex items-center gap-3 rounded-lg text-sm transition-colors px-2 h-10 hover:bg-sidebar-hover cursor-pointer ${
                   collapsed ? "justify-center px-0" : ""
                 }`}
               >
