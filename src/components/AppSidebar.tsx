@@ -189,11 +189,14 @@ export function AppSidebar() {
           <SidebarItem collapsed={collapsed} label="最新动态">
             <button
               onClick={() => setAnnouncementOpen(true)}
-              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+              className={`relative flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
                 collapsed ? "justify-center px-0" : ""
               }`}
             >
-              <Bell className="h-[18px] w-[18px] shrink-0" />
+              <div className="relative">
+                <Bell className="h-[18px] w-[18px] shrink-0" />
+                <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-destructive" />
+              </div>
               {!collapsed && <span className="truncate">最新动态</span>}
             </button>
           </SidebarItem>

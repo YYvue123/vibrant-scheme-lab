@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X } from "lucide-react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Announcement {
   id: string;
@@ -142,46 +142,40 @@ function AnnouncementContent() {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    // Mobile: single column, selected detail on top then list
     return (
-      <div className="flex flex-col gap-3 px-4 pb-4">
-        {/* Detail */}
-        <div className="space-y-3">
-          <div>
-            <h3 className="text-sm font-semibold text-foreground">
-              {selected.icon} {selected.title}
-            </h3>
-            <p className="text-xs text-muted-foreground mt-1">{selected.date}</p>
-          </div>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            {selected.highlights[0]?.desc.slice(0, 60)}...
-          </p>
-          {selected.highlights.map((h, i) => (
-            <div key={i} className="space-y-1">
-              <h4 className="text-xs font-semibold text-foreground">
-                {h.icon} {h.title}
-              </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">{h.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* List */}
-        <div className="border-t border-border pt-3 space-y-1">
-          {mockAnnouncements.map((a) => (
+      <div className="flex flex-col gap-2 px-4 pb-4">
+        {mockAnnouncements.map((a) => (
+          <div key={a.id} className="bg-accent/50 rounded-lg">
             <button
-              key={a.id}
-              onClick={() => setSelectedId(a.id)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
-                a.id === selectedId
-                  ? "bg-accent font-medium text-foreground"
-                  : "text-muted-foreground hover:bg-accent/50"
-              }`}
+              onClick={() => setSelectedId(selectedId === a.id ? "" : a.id)}
+              className="w-full text-left px-4 py-3 flex items-start justify-between gap-2 cursor-pointer"
             >
-              {a.icon} {a.tag} | {a.title.slice(0, 20)}...
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-foreground leading-snug">
+                  {a.icon} {a.title}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">{a.date}</p>
+              </div>
+              {selectedId === a.id ? (
+                <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+              )}
             </button>
-          ))}
-        </div>
+            {selectedId === a.id && (
+              <div className="px-4 pb-3 space-y-2 border-t border-border/50 pt-2">
+                {a.highlights.map((h, i) => (
+                  <div key={i} className="space-y-0.5">
+                    <h4 className="text-xs font-semibold text-foreground">
+                      {h.icon} {h.title}
+                    </h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{h.desc}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     );
   }
