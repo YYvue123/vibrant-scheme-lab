@@ -268,11 +268,15 @@ export function AppSidebar() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">订阅额度:</span>
-                      <span className="font-bold">{user?.subscriptionQuota} / {user?.subscriptionQuotaMax}</span>
+                      <span className="font-bold"><span className="text-emerald-500">{user?.subscriptionQuota}</span> / {user?.subscriptionQuotaMax}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">更多配额:</span>
                       <span className="font-bold">{user?.extraQuota}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">剩余时间:</span>
+                      <span className="font-bold">{user?.remainingTime}</span>
                     </div>
                   </div>
                 </div>

@@ -196,11 +196,15 @@ export function MobileSidebar({
                 <div className="space-y-1.5 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground text-xs">订阅额度:</span>
-                    <span className="text-xs font-bold">{user?.subscriptionQuota} / {user?.subscriptionQuotaMax}</span>
+                    <span className="text-xs font-bold"><span className="text-emerald-500">{user?.subscriptionQuota}</span> / {user?.subscriptionQuotaMax}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground text-xs">更多配额:</span>
                     <span className="text-xs font-bold">{user?.extraQuota}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground text-xs">剩余时间:</span>
+                    <span className="text-xs font-bold">{user?.remainingTime}</span>
                   </div>
                 </div>
 
