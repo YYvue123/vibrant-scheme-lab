@@ -151,7 +151,10 @@ export function MobileSidebar({
               onClick={() => { setAnnouncementOpen(true); onOpenChange(false); }}
               className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
             >
-              <Bell className="h-4 w-4 shrink-0" />
+              <div className="relative">
+                <Bell className="h-4 w-4 shrink-0" />
+                <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-destructive" />
+              </div>
               <span>最新动态</span>
             </button>
 
