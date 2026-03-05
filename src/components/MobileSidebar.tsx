@@ -9,6 +9,7 @@ import {
   Music,
   Crown,
   Gift,
+  Bell,
   Headphones,
   Sun,
   Moon,
@@ -33,6 +34,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import qrcodeImg from "@/assets/qrcode.png";
+import { AnnouncementDialog } from "@/components/AnnouncementDialog";
 
 const navItems = [
   { icon: MessageSquare, label: "AI 对话", path: "/ai-chat" },
@@ -69,7 +71,8 @@ export function MobileSidebar({
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
-  
+  const [announcementOpen, setAnnouncementOpen] = useState(false);
+
 
   const totalQuota = user ? user.subscriptionQuota + user.extraQuota : 0;
 
@@ -141,6 +144,15 @@ export function MobileSidebar({
             >
               <Gift className="h-4 w-4 shrink-0" />
               <span>兑换</span>
+            </button>
+
+            {/* Announcement */}
+            <button
+              onClick={() => { setAnnouncementOpen(true); onOpenChange(false); }}
+              className="flex items-center gap-2.5 rounded-lg text-xs transition-colors px-3 h-9 text-foreground hover:bg-accent cursor-pointer"
+            >
+              <Bell className="h-4 w-4 shrink-0" />
+              <span>最新动态</span>
             </button>
 
             {/* Customer service */}
@@ -296,6 +308,8 @@ export function MobileSidebar({
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+
+      <AnnouncementDialog open={announcementOpen} onOpenChange={setAnnouncementOpen} />
     </>
   );
 }
