@@ -247,13 +247,13 @@ export function AppSidebar() {
                     collapsed ? "justify-center px-0" : ""
                   }`}
                 >
-                  <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                    <User className="h-4 w-4 text-primary" />
+                  <div className="w-7 h-7 rounded-full bg-primary/30 flex items-center justify-center shrink-0">
+                    <User className="h-4 w-4 text-primary dark:text-primary-foreground" />
                   </div>
                   {!collapsed && (
                     <div className="flex flex-col text-sidebar-foreground">
                       <span className="text-xs truncate">{user?.name}</span>
-                      <span className="text-xs text-primary font-medium">⚡ {totalQuota}</span>
+                      <span className="text-xs text-primary dark:text-blue-300 font-medium">⚡ {totalQuota}</span>
                     </div>
                   )}
                 </button>
