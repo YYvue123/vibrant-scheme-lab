@@ -17,6 +17,7 @@ import {
   User,
   PanelLeft,
   LogIn,
+  Bell,
 } from "lucide-react";
 import {
   Dialog,
@@ -45,6 +46,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import qrcodeImg from "@/assets/qrcode.png";
+import { AnnouncementDialog } from "@/components/AnnouncementDialog";
 
 const navItems = [
   { icon: MessageSquare, label: "AI 对话", path: "/ai-chat" },
@@ -102,6 +104,7 @@ export function AppSidebar() {
   const [redeemOpen, setRedeemOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
+  const [announcementOpen, setAnnouncementOpen] = useState(false);
   const [avatarPopover, setAvatarPopover] = useState(false);
 
   const sidebarWidth = collapsed ? "w-[52px]" : "w-[180px]";
@@ -179,6 +182,19 @@ export function AppSidebar() {
             >
               <Gift className="h-[18px] w-[18px] shrink-0" />
               {!collapsed && <span className="truncate">兑换</span>}
+            </button>
+          </SidebarItem>
+
+          {/* Announcement */}
+          <SidebarItem collapsed={collapsed} label="最新动态">
+            <button
+              onClick={() => setAnnouncementOpen(true)}
+              className={`flex items-center gap-3 rounded-lg text-[15px] transition-colors px-3 h-11 text-sidebar-foreground hover:bg-sidebar-hover cursor-pointer ${
+                collapsed ? "justify-center px-0" : ""
+              }`}
+            >
+              <Bell className="h-[18px] w-[18px] shrink-0" />
+              {!collapsed && <span className="truncate">最新动态</span>}
             </button>
           </SidebarItem>
 
