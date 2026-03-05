@@ -6,6 +6,7 @@ export interface MockUser {
   subscriptionQuota: number;
   subscriptionQuotaMax: number;
   extraQuota: number;
+  remainingTime: string;
 }
 
 interface MockAuthContextType {
@@ -17,9 +18,10 @@ interface MockAuthContextType {
 
 const mockUserData: MockUser = {
   name: "用户",
-  subscriptionQuota: 10,
-  subscriptionQuotaMax: 10,
+  subscriptionQuota: 1129,
+  subscriptionQuotaMax: 1200,
   extraQuota: 828,
+  remainingTime: "29d 0h 55m",
 };
 
 const MockAuthContext = createContext<MockAuthContextType>({
