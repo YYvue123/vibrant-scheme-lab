@@ -188,10 +188,10 @@ function AnnouncementContent() {
 
 // Desktop: two-column layout
   return (
-    <div className="flex max-h-[480px]">
+    <div className="flex h-[480px]">
       {/* Left list */}
-      <ScrollArea className="w-[240px] shrink-0 max-h-[480px]">
-        <div className="p-2 space-y-1">
+      <ScrollArea className="w-[240px] shrink-0 h-[480px]">
+        <div className="p-2 space-y-2">
           {mockAnnouncements.map((a) => (
             <button
               key={a.id}
@@ -209,8 +209,8 @@ function AnnouncementContent() {
       </ScrollArea>
 
       {/* Right detail */}
-      <ScrollArea className="flex-1 max-h-[480px]">
-        <div className="p-6 space-y-5 bg-accent/30 min-h-full">
+      <ScrollArea className="flex-1 h-[480px]">
+        <div className="p-6 pt-2 space-y-5 bg-accent/30 min-h-[480px]">
           <div>
             <h3 className="text-base font-semibold text-foreground">
               {selected.icon} {selected.title}
