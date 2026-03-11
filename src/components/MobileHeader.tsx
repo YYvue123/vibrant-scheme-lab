@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Crown, Flame, User } from "lucide-react";
+import { Crown, Zap, User } from "lucide-react";
 import { useMockAuth } from "@/hooks/use-mock-auth";
 import { MobileSidebarTrigger } from "@/components/MobileSidebar";
 import {
@@ -32,8 +32,8 @@ export function MobileHeader({ onMenuOpen }: { onMenuOpen: () => void }) {
             <Popover>
               <PopoverTrigger asChild>
                 <button className="flex items-center gap-1.5 px-2 h-8 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                  <Flame className="h-4 w-4 text-orange-500" />
                   <span className="text-xs font-medium text-foreground">配额余额</span>
+                  <Zap className="h-3.5 w-3.5 text-emerald-500" />
                   <span className="text-xs font-bold text-emerald-500">{totalQuota}</span>
                 </button>
               </PopoverTrigger>
@@ -66,17 +66,17 @@ export function MobileHeader({ onMenuOpen }: { onMenuOpen: () => void }) {
               </PopoverContent>
             </Popover>
           )}
-        </div>
 
-        {isLoggedIn && (
-          <button
-            onClick={() => setVipOpen(true)}
-            className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-amber-500/15 hover:bg-amber-500/25 transition-colors cursor-pointer"
-          >
-            <Crown className="h-3.5 w-3.5 text-amber-500" />
-            <span className="text-xs font-medium text-amber-500">升级/续费</span>
-          </button>
-        )}
+          {isLoggedIn && (
+            <button
+              onClick={() => setVipOpen(true)}
+              className="flex items-center gap-1 px-2 h-7 rounded-md bg-amber-500/15 hover:bg-amber-500/25 transition-colors cursor-pointer"
+            >
+              <Crown className="h-3.5 w-3.5 text-amber-500" />
+              <span className="text-xs font-medium text-amber-500">升级/续费</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {/* VIP Drawer */}
