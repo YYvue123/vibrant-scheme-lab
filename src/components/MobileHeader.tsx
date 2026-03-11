@@ -66,17 +66,17 @@ export function MobileHeader({ onMenuOpen }: { onMenuOpen: () => void }) {
               </PopoverContent>
             </Popover>
           )}
-        </div>
 
-        {isLoggedIn && (
-          <button
-            onClick={() => setVipOpen(true)}
-            className="flex items-center gap-1 px-2.5 h-7 rounded-md bg-amber-500/15 hover:bg-amber-500/25 transition-colors cursor-pointer"
-          >
-            <Crown className="h-3.5 w-3.5 text-amber-500" />
-            <span className="text-xs font-medium text-amber-500">升级/续费</span>
-          </button>
-        )}
+          {isLoggedIn && (
+            <button
+              onClick={() => setVipOpen(true)}
+              className="flex items-center gap-1 px-2 h-7 rounded-md bg-amber-500/15 hover:bg-amber-500/25 transition-colors cursor-pointer"
+            >
+              <Crown className="h-3.5 w-3.5 text-amber-500" />
+              <span className="text-xs font-medium text-amber-500">升级/续费</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {/* VIP Drawer */}
