@@ -7,7 +7,8 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import { SidebarProvider } from "@/hooks/use-sidebar-state";
 import { MockAuthProvider } from "@/hooks/use-mock-auth";
 import { AppSidebar } from "@/components/AppSidebar";
-import { MobileSidebar, MobileSidebarTrigger } from "@/components/MobileSidebar";
+import { MobileSidebar } from "@/components/MobileSidebar";
+import { MobileHeader } from "@/components/MobileHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 import AiChat from "./pages/AiChat";
@@ -28,11 +29,9 @@ function AppLayout() {
       {!isMobile && <AppSidebar />}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile: floating trigger button instead of full header */}
+        {/* Mobile header */}
         {isMobile && (
-          <div className="absolute top-2 left-2 z-30">
-            <MobileSidebarTrigger onClick={() => setMobileOpen(true)} />
-          </div>
+          <MobileHeader onMenuOpen={() => setMobileOpen(true)} />
         )}
         <main className="flex-1 overflow-auto">
           <Routes>
