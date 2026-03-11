@@ -32,8 +32,8 @@ export function MobileHeader({ onMenuOpen }: { onMenuOpen: () => void }) {
             <Popover>
               <PopoverTrigger asChild>
                 <button className="flex items-center gap-1.5 px-2 h-8 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                  <Flame className="h-4 w-4 text-orange-500" />
                   <span className="text-xs font-medium text-foreground">配额余额</span>
+                  <Zap className="h-3.5 w-3.5 text-emerald-500" />
                   <span className="text-xs font-bold text-emerald-500">{totalQuota}</span>
                 </button>
               </PopoverTrigger>
