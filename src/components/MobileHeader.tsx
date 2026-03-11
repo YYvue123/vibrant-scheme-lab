@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Crown, Flame, User } from "lucide-react";
+import { Crown, Zap, User } from "lucide-react";
 import { useMockAuth } from "@/hooks/use-mock-auth";
 import { MobileSidebarTrigger } from "@/components/MobileSidebar";
 import {
