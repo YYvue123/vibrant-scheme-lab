@@ -28,11 +28,9 @@ function AppLayout() {
       {!isMobile && <AppSidebar />}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile: floating trigger button instead of full header */}
+        {/* Mobile header */}
         {isMobile && (
-          <div className="absolute top-2 left-2 z-30">
-            <MobileSidebarTrigger onClick={() => setMobileOpen(true)} />
-          </div>
+          <MobileHeader onMenuOpen={() => setMobileOpen(true)} />
         )}
         <main className="flex-1 overflow-auto">
           <Routes>
